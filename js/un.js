@@ -8,6 +8,15 @@ function getMonthName(date) {
 
 
 $(function(){
+	if($(".audio_language_list [name=language]").length > 0){
+	$(".audio_language_list [name=language]").onchange(function(){
+		$.ajax({url:"/getenregistrement/"});
+	});
+
+	}
+	if($("[id=language1]").length > 0 && window.location.search.includes("?l=")){
+		$("[id=language1]").val(window.location.search.split("?l=")[1]);
+	}
 const playIconContainer = $('.play-icon');
 let state = 'play',playicon="&#9658;",pauseicon="&#x23f8;";
 playIconContainer.html(playicon);
@@ -21,9 +30,14 @@ playIconContainer.click(function(){
 		  someaudio.pause();
 			        state = 'play';
 		  $(this).html(playicon);
+
 			      }
+$(".jumptotime .play").show();
+$(".jumptotime .pause").hide();
 });
 const audio = $('audio');
+$(".jumptotime .play").show();
+$(".jumptotime .pause").hide();
 
 	audio.on('loadedmetadata', function() {
 var calculateTime = (secs)=> {
@@ -111,19 +125,45 @@ audio.each(function(){
 
 });
 $(".jumptotime").click(function(){
+
 	var time=$(this)[0].parentElement.parentElement.parentElement.parentElement.children[3].innerHTML.replaceAll("\n\t","").replaceAll("\t","").replaceAll("\n","").replaceAll(" ","").split(":");
 	var seconds=Number(time[0])*3600+Number(time[1])*60+Number(time[0]);
 	var someaudio=$("audio[data-eventid="+$(this)[0].dataset.eventid+"]")[0];
+
+
+
+
+	//if (state === "play"){
+
+if(state === "pause" && $(this).children(".play")[0].style.display === "none"){
+		  someaudio.pause();
+			        state = 'play';
+		                  $(playIconContainer).html(playicon);
+$(".jumptotime .play").show();
+$(".jumptotime .pause").hide();
+}else if ($(".jumptotime .pause[style*=\"display:block\"]").length > 0){
 	someaudio.currentTime=seconds;
-	if(state === 'play') {
 		                  someaudio.play();
 		                      state = 'pause';
 		                  $(playIconContainer).html(pauseicon);
-		                    } else {
-					                      someaudio.pause();
-					                                    state = 'play';
-					                      $(playIconContainer).html(playicon);
-					                                  }
+$(".jumptotime .play").show();
+$(".jumptotime .pause").hide();
+
+$(this).children(".play").hide();
+$(this).children(".pause").show();
+} else {
+	someaudio.currentTime=seconds;
+	
+
+		                  someaudio.play();
+		                      state = 'pause';
+		                  $(playIconContainer).html(pauseicon);
+$(".jumptotime .play").show();
+$(".jumptotime .pause").hide();
+
+$(this).children(".play").hide();
+$(this).children(".pause").show();
+}
 	
 });
 

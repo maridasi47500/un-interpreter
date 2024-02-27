@@ -122,3 +122,10 @@ input[type="range"] {
 																		      .player-tabs {
 																			      height:300px;
 																		      }
+																		      .ajouterenregistrement{
+																			          color: #0a58ca; 
+																				      border: blue 1px solid;
+																				          border-radius: 22222px;
+																					      padding: 0 11px 0 11px;
+																					          cursor: pointer;
+																					  }

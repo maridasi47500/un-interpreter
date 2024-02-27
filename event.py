@@ -50,7 +50,7 @@ class Event(Model):
         self.con.commit()
         return None
     def getbyid(self,myid):
-        self.cur.execute("select * from event where id = ?",(myid,))
+        self.cur.execute("select event.*,o.name as organization from event left join organization o on o.myvalue = event.id where event.id = ?",(myid,))
         row=dict(self.cur.fetchone())
         print(row["id"], "row id")
         job=self.cur.fetchall()
