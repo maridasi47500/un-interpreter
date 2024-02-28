@@ -96,6 +96,7 @@ class RenderFigure():
         print("render collection")
         try:
             myview=open(os.path.abspath("./"+partial),"r").read()
+            k=["hey"]
             mystr=""
             i=0
             paspremier=False
@@ -108,11 +109,15 @@ class RenderFigure():
                 loc["index"]=i
                 loc["paspremier"]=paspremier
                 loc[as_]=x
-
+                print("Hey There",x)
                 for j in myview.split("<%"):
                     ligne+=j.count("\r\n")
-                    if j[0] == "=":
+                    if len(j) == 0:
+                        print("Hello length string = 0")
+                    elif j[0] == "=":
+
                         j=j[1:]
+                        print("Hello",j)
                         if "%>" not in j:
                             mystr+=j
                             continue
@@ -127,6 +132,7 @@ class RenderFigure():
                         if k[1]:
                             mystr+=k[1]
                     else:
+                        print("Hello",j)
                         if "%>" not in j:
                             mystr+=j
                             continue

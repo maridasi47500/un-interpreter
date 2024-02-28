@@ -1,0 +1,6 @@
+<%="," if paspremier else ""%>{
+	"event_id": "<%=speaker["event_id"]%>",
+	"time_debut": "<%=speaker["time_debut"]%>",
+	"time_fin": "<%=speaker["time_fin"]%>",
+	"text": "<%=speaker["text"]%>"
+}

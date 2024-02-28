@@ -1,1 +1,9 @@
-{"nbrecording":0}
+{
+	"nbrecording":"<%=params["event"]["nombre"]%>",
+	"recording":"<%=params["event"]["recording"]%>",
+	"language":"<%=params["event"]["language"]%>",
+	"heure":"<%=params["event"]["heure"]%>",
+	"speakers":[
+	<%=render_collection(collection=params["event"]['speakers'], partial='welcome/_event.json', as_='speaker')%>
+	]
+}

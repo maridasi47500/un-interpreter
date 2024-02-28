@@ -11,9 +11,10 @@ class Speakerrecording(Model):
         self.cur.execute("""create table if not exists speakerrecording(
         id integer primary key autoincrement,
         myrecording_id text,
+            name text,
+            text text,
             time_debut text,
-            time_fin text,
-            text text
+            time_fin text
                     );""")
         self.con.commit()
         #self.con.close()
@@ -28,6 +29,10 @@ class Speakerrecording(Model):
         job=self.cur.fetchall()
         self.con.commit()
         return None
+    def getbyrecordingid(self,myid):
+        self.cur.execute("select speakerrecording.*,myrecording.event_id from speakerrecording left join myrecording on myrecording.id = speakerrecording.myrecording_id group by speakerrecording.id having speakerrecording.myrecording_id = ?",(myid,))
+        job=self.cur.fetchall()
+        return job
     def getbyid(self,myid):
         self.cur.execute("select * from speakerrecording where id = ?",(myid,))
         row=dict(self.cur.fetchone())
@@ -52,7 +57,7 @@ class Speakerrecording(Model):
         print(myhash,myhash.keys())
         myid=None
         try:
-          self.cur.execute("insert into speakerrecording (myrecording_id,time_debut,time_fin,text) values (:myrecording_id,:time_debut,:time_fin,:text)",myhash)
+          self.cur.execute("insert into speakerrecording (myrecording_id,name,text,time_debut,time_fin) values (:myrecording_id,:name,:text,:time_debut,:time_fin)",myhash)
           self.con.commit()
           myid=str(self.cur.lastrowid)
         except Exception as e:

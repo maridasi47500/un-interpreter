@@ -8,9 +8,21 @@ function getMonthName(date) {
 
 
 $(function(){
-	if($(".audio_language_list [name=language]").length > 0){
-	$(".audio_language_list [name=language]").onchange(function(){
-		$.ajax({url:"/getenregistrement/"});
+	if($(".audio_language_list [name='language']").length > 0){
+	$(".audio_language_list [name='language']").change(function(){
+		$.ajax({url:("/getenregistrement/"+$(".audio_language_list")[0].dataset.someeventid+"?l="+$(this).val().replace(".mp3","")),
+
+		success:function(data){
+			console.log(data);
+			var speakers=data.speakers;
+			var hey = $('.speaker-list');
+			var myspeaker;
+			for (var i = 0;i<speakers.length;i++){
+			    myspeaker=speakers[i];
+			    hey.append(`<tr class="speaker" id="position-0" data-position="0"><td lang="en">Start recording</td><td class="speaker-actions"><ul class="list-inline"><li aria-live=""><button data-eventid="${myspeaker["event_id"]}" class="jumptotime player-control btn btn-link" title="Play at this point in the recording"><span class="play" data-label="Play at this point in the recording"><i class="fa fa-play-circle-o fa-lg">&nbsp;</i><span class="sr-only">Play at this point in the recording</span></span><span class="pause" data-label="Pause" style="display: none;"><i class="fa fa-pause-circle-o fa-lg">&nbsp;</i><span class="sr-only">Pause</span></span></button></li>   <li><a class="share-link modalbox btn btn-link" role="button" title="Share a link to this point in the recording" href="./?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=FRENCH" data-target="#linkto-0"><i class="fa fa-link fa-lg">&nbsp;</i><span class="sr-only">Share a link to this point in the recording</span></a>   <div class="linktoseconds" id="linkto-0" style="display: none;"><p>Copy the following link to have a direct access to this point in the recording:</p><label for="directLink-0">Direct link</label><br><textarea id="directLink-0" class="direct-link">https://conf.unog.ch/digitalrecordings/index.html?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=ORIGINAL</textarea>   </div></li>   <li><button class="download_chunk btn btn-link" title="Download this speech" data-chunk-download-link="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3" href="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3"><i class="fa fa-download fa-lg">&nbsp;</i><span class="sr-only">Download this speech</span></button></li></ul></td><td> `);
+			}
+			
+		}});
 	});
 
 	}

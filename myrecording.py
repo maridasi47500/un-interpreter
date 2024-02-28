@@ -5,12 +5,14 @@ import re
 from model import Model
 from texttospeech import Texttospeech
 from speakerrecording import Speakerrecording
+from event import Event
 class Myrecording(Model):
     def __init__(self):
         self.con=sqlite3.connect(self.mydb)
         self.con.row_factory = sqlite3.Row
         self.cur=self.con.cursor()
         self.dbSpeaker=Speakerrecording()
+        self.dbEvent=Event()
         self.cur.execute("""create table if not exists myrecording(
         id integer primary key autoincrement,
         recording text,
@@ -31,9 +33,26 @@ class Myrecording(Model):
         self.con.commit()
         return None
     def getbyeventidlanguage(self,myid,language):
-        self.cur.execute("select * from myrecording where event_id = ? and language = ?",(myid,language,))
-        row=self.cur.fetchall()
-        return row
+        if language == "ORIGINAL":
+            hey=self.dbEvent.getall_speaker_withid(myid)
+            print(hey,"HEY")
+            return hey
+        else:
+            self.cur.execute("select myrecording.*,event.heure as heure from myrecording left join event on event.id = myrecording.event_id group by myrecording.id having myrecording.event_id = ? and myrecording.language = ?",(myid,language))
+            print("hey")
+            try:
+                row=self.cur.fetchone()
+                print(row)
+                row=dict(row)
+                row["nombre"]="1"
+                row["speakers"]=self.dbSpeaker.getbyrecordingid(row["id"])
+                if row["speakers"] is None:
+                    row["speakers"]=[]
+                print(row,"ROW")
+            except Exception as e:
+                row=dict({"heure":"","recording":"","language":"","nombre":"0","speakers":[]})
+                print(row,"ROW",e)
+            return row
     def getbyid(self,myid):
         self.cur.execute("select * from myrecording where id = ?",(myid,))
         row=dict(self.cur.fetchone())
@@ -81,9 +100,10 @@ class Myrecording(Model):
                   sometext=hey.get_text_hey(duration)
               else:
                   sometext=hey.get_text_hey(duration,temps)
-                  temps+=60
-                  tempsfin=temps
-                  speaker=self.dbSpeaker.create({"name":"Speaker","text":sometext,"time_debut":tempsdebut,"time_fin":tempsfin,"event_id":myid})
+              temps+=60
+              tempsfin=temps
+              print({"name":"Speaker","text":sometext,"time_debut":tempsdebut,"time_fin":tempsfin,"myrecording_id":myid})
+              speaker=self.dbSpeaker.create({"name":"Speaker","text":sometext,"time_debut":tempsdebut,"time_fin":tempsfin,"myrecording_id":myid})
         except Exception as e:
           print("Hey",e)
         return azerty

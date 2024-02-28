@@ -316,6 +316,7 @@ class Route():
         myparam=self.get_this_route_param(getparams,params)
         l=params["l"][0]#langue
         x=self.dbRecording.getbyeventidlanguage(myparam["id"], l)
+        self.render_figure.set_param("event",x)
         return self.render_some_json("welcome/somerecording.json")
     def run(self,redirect=False,redirect_path=False,path=False,session=False,params={},url=False,post_data=False):
         if post_data:
