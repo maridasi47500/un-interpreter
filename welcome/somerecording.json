@@ -1,6 +1,6 @@
 {
 	"nbrecording":"<%=params["event"]["nombre"]%>",
-	"recording":"<%=params["event"]["recording"]%>",
+	"recording":"/uploads/<%=params["event"]["recording"]%>",
 	"language":"<%=params["event"]["language"]%>",
 	"heure":"<%=params["event"]["heure"]%>",
 	"speakers":[

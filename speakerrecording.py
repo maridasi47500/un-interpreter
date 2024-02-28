@@ -30,7 +30,7 @@ class Speakerrecording(Model):
         self.con.commit()
         return None
     def getbyrecordingid(self,myid):
-        self.cur.execute("select speakerrecording.*,myrecording.event_id from speakerrecording left join myrecording on myrecording.id = speakerrecording.myrecording_id group by speakerrecording.id having speakerrecording.myrecording_id = ?",(myid,))
+        self.cur.execute("select speakerrecording.*,myrecording.event_id,event.heure from speakerrecording left join myrecording on myrecording.id = speakerrecording.myrecording_id left join event on event.id = myrecording.event_id group by speakerrecording.id having speakerrecording.myrecording_id = ?",(myid,))
         job=self.cur.fetchall()
         return job
     def getbyid(self,myid):
