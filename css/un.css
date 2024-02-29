@@ -144,3 +144,7 @@ input[type="range"] {
 																					    background: radial-gradient(#ffeb3b, transparent);
 																			}
 																		}
+																		span[s] {
+																			  scroll-padding-top: 30px;
+
+																		}
