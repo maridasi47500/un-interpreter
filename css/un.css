@@ -129,3 +129,18 @@ input[type="range"] {
 																					      padding: 0 11px 0 11px;
 																					          cursor: pointer;
 																					  }
+																		span[s].mysentence {
+																			animation-name: Heythere;
+																			animation-duration: 1s;
+																		}
+																		@keyframes Heythere {
+																			0%{
+																					    background: radial-gradient(#ffeb00, transparent);
+																			}
+																			50%{
+																					    background: radial-gradient(#ffeb87, transparent);
+																			}
+																			100%{
+																					    background: radial-gradient(#ffeb3b, transparent);
+																			}
+																		}

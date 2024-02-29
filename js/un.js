@@ -24,7 +24,7 @@ $(function(){
 			    hey.innerHTML=("");
 			    transcript.innerHTML="";
 			    myrec.src=data.recording;
-				var heythere;
+			    var heythere;
 			    var y,z,sometext;
 			    
 
@@ -32,7 +32,7 @@ $(function(){
 				y=i+1;
 			        myspeaker=speakers[i];
 				sometext=myspeaker.text.split(" ");
-			        hey.innerHTML+=(`<tr class="speaker" id="position-0" data-position="0"><td lang="en">Start recording</td><td class="speaker-actions"><ul class="list-inline"><li aria-live=""><button data-eventid="${myspeaker["event_id"]}" class="jumptotime player-control btn btn-link" title="Play at this point in the recording"><span class="play" data-label="Play at this point in the recording"><i class="fa fa-play-circle-o fa-lg">&nbsp;</i><span class="sr-only">Play at this point in the recording</span></span><span class="pause" data-label="Pause" style="display: none;"><i class="fa fa-pause-circle-o fa-lg">&nbsp;</i><span class="sr-only">Pause</span></span></button></li>   <li><a class="share-link modalbox btn btn-link" role="button" title="Share a link to this point in the recording" href="./?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=FRENCH" data-target="#linkto-0"><i class="fa fa-link fa-lg">&nbsp;</i><span class="sr-only">Share a link to this point in the recording</span></a>   <div class="linktoseconds" id="linkto-0" style="display: none;"><p>Copy the following link to have a direct access to this point in the recording:</p><label for="directLink-0">Direct link</label><br><textarea id="directLink-0" class="direct-link">https://conf.unog.ch/digitalrecordings/index.html?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=ORIGINAL</textarea>   </div></li>   <li><button class="download_chunk btn btn-link" title="Download this speech" data-chunk-download-link="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3" href="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3"><i class="fa fa-download fa-lg">&nbsp;</i><span class="sr-only">Download this speech</span></button></li></ul></td><td>${myspeaker.time_debut}</td><td>${myspeaker.time_fin}</td></tr> `);
+			        hey.innerHTML+=(`<tr class="speaker" id="position-${i}" data-position="${i}"><td lang="en">Start recording</td><td class="speaker-actions"><ul class="list-inline"><li aria-live=""><button data-eventid="${myspeaker["event_id"]}" class="jumptotime player-control btn btn-link" title="Play at this point in the recording"><span class="play" data-label="Play at this point in the recording"><i class="fa fa-play-circle-o fa-lg">&nbsp;</i><span class="sr-only">Play at this point in the recording</span></span><span class="pause" data-label="Pause" style="display: none;"><i class="fa fa-pause-circle-o fa-lg">&nbsp;</i><span class="sr-only">Pause</span></span></button></li>   <li><a class="share-link modalbox btn btn-link" role="button" title="Share a link to this point in the recording" href="./?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=FRENCH" data-target="#linkto-0"><i class="fa fa-link fa-lg">&nbsp;</i><span class="sr-only">Share a link to this point in the recording</span></a>   <div class="linktoseconds" id="linkto-0" style="display: none;"><p>Copy the following link to have a direct access to this point in the recording:</p><label for="directLink-0">Direct link</label><br><textarea id="directLink-0" class="direct-link">https://conf.unog.ch/digitalrecordings/index.html?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=ORIGINAL</textarea>   </div></li>   <li><button class="download_chunk btn btn-link" title="Download this speech" data-chunk-download-link="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3" href="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3"><i class="fa fa-download fa-lg">&nbsp;</i><span class="sr-only">Download this speech</span></button></li></ul></td><td>${myspeaker.time_debut}</td><td>${myspeaker.time_fin}</td></tr> `);
 
 			       heythere =(`<div s="${y}" class="original sentence" id="mysentence${y}" start="${myspeaker["tempsdebut"]}" end="${myspeaker["tempsfin"]}">`);
 			       var somelength=sometext.length;
@@ -51,6 +51,56 @@ $(function(){
 
 			    }
 			}
+			$(".jumptotime").click(function(){
+				                           var mydiv=$(this)[0].parentElement.parentElement.parentElement.parentElement;
+				                               console.log(mydiv);
+
+
+				
+	var someaudio=$(playIconContainer.parentElement).children("audio")[0];
+				        var time=$(this)[0].parentElement.parentElement.parentElement.parentElement.children[3].innerHTML.replaceAll("\n\t","").replaceAll("\t","").replaceAll("\n","").replaceAll(" ","").split(":");
+				        var seconds=Number(time[0])*3600+Number(time[1])*60+Number(time[0]);
+				        var someaudio=$("audio[data-eventid="+$(this)[0].dataset.eventid+"]")[0];
+				if(state === "pause" && $(this).children(".play")[0].style.display === "none"){
+					                  someaudio.pause();
+					                                state = 'play';
+					                                  $(playIconContainer).html(playicon);
+					$(".jumptotime .play").show();
+					$(".jumptotime .pause").hide();
+				}else if ($(".jumptotime .pause[style*=\"display:block\"]").length > 0){
+					        someaudio.currentTime=seconds;
+					                                  someaudio.play();
+				                            var myel=document.getElementById('mysentence'+mydiv.dataset.position);
+				var otherel=myel.children[0];
+				                        //myel.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+				                        myel.scrollIntoViewIfNeeded(true);
+				                            otherel.classList.add("mysentence");
+				setInterval(function(){otherel.classList.remove("mysentence");},1000);
+					                                      state = 'pause';
+					                                  $(playIconContainer).html(pauseicon);
+					$(".jumptotime .play").show();
+					$(".jumptotime .pause").hide();
+					$(this).children(".play").hide();
+					$(this).children(".pause").show();
+				} else {
+					        someaudio.currentTime=seconds;
+					                                  someaudio.play();
+				                            var myel=document.getElementById('mysentence'+mydiv.dataset.position);
+				var otherel=myel.children[0];
+				                        //myel.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+				                        myel.scrollIntoViewIfNeeded(true);
+				                            otherel.classList.add("mysentence");
+				setInterval(function(){otherel.classList.remove("mysentence");},1000);
+					                                      state = 'pause';
+					                                  $(playIconContainer).html(pauseicon);
+					$(".jumptotime .play").show();
+					$(".jumptotime .pause").hide();
+
+					$(this).children(".play").hide();
+					$(this).children(".pause").show();
+				}
+
+			});
 			
 		}});
 	});
@@ -167,6 +217,9 @@ audio.each(function(){
 
 });
 $(".jumptotime").click(function(){
+	var mydiv=$(this)[0].parentElement.parentElement.parentElement.parentElement;
+	                                                               console.log(mydiv);
+
 
 	var time=$(this)[0].parentElement.parentElement.parentElement.parentElement.children[3].innerHTML.replaceAll("\n\t","").replaceAll("\t","").replaceAll("\n","").replaceAll(" ","").split(":");
 	var seconds=Number(time[0])*3600+Number(time[1])*60+Number(time[0]);
@@ -186,6 +239,12 @@ $(".jumptotime .pause").hide();
 }else if ($(".jumptotime .pause[style*=\"display:block\"]").length > 0){
 	someaudio.currentTime=seconds;
 		                  someaudio.play();
+	var myel=document.getElementById('mysentence'+mydiv.dataset.position);
+	var otherel = myel.children[0];
+	                                                        //myel.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+	                                                        myel.scrollIntoViewIfNeeded(true);
+	                                                            otherel.classList.add("mysentence");
+	                                setInterval(function(){otherel.classList.remove("mysentence");},1000);
 		                      state = 'pause';
 		                  $(playIconContainer).html(pauseicon);
 $(".jumptotime .play").show();
@@ -198,6 +257,12 @@ $(this).children(".pause").show();
 	
 
 		                  someaudio.play();
+	var myel=document.getElementById('mysentence'+mydiv.dataset.position);
+	var otherel = myel.children[0];
+	                                                        //myel.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+	                                                        myel.scrollIntoViewIfNeeded(true);
+	                                                            otherel.classList.add("mysentence");
+	                                setInterval(function(){otherel.classList.remove("mysentence");},1000);
 		                      state = 'pause';
 		                  $(playIconContainer).html(pauseicon);
 $(".jumptotime .play").show();
