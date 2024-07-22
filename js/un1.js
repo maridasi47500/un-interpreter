@@ -1,5 +1,5 @@
 
-                 function highlight(text, from, to) {
+                 function highlight(mynumber,text, from, to) {
                      const replacement = `</span><span s="${mynumber}" style="background-color: grey;">${text.slice(from, to)}`;
                          return '<span s="'+String(mynumber)+'">'+text.substring(0, from).replace(" ",'</span><span s="'+String(mynumber)+'">') + replacement + text.substring(to)+"</span>";
                          }
@@ -27,7 +27,7 @@ function myhighlight(mynumber) {
          utterance.addEventListener('boundary', event => {
 		 console.log("hey");
              const { charIndex, charLength } = event;
-                 textElement.innerHTML = highlight(originalText, charIndex, charIndex + charLength);
+                 textElement.innerHTML = highlight(mynumber,originalText, charIndex, charIndex + charLength);
                  });
 
                  // Start speaking the text
