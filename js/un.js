@@ -8,6 +8,110 @@ function getMonthName(date) {
 
 
 $(function(){
+<<<<<<< HEAD
+	if($(".audio_language_list [name='language']").length > 0){
+	$(".audio_language_list [name='language']").change(function(){
+		$.ajax({url:("/getenregistrement/"+$(".audio_language_list")[0].dataset.someeventid+"?l="+$(this).val().replace(".mp3","")),
+
+		success:function(data){
+			console.log(data);
+			if (Number(data.nbrecording) > 0){
+			    var speakers=data.speakers;
+			    var hey = $('.speaker-list')[0];
+			    var myspeaker;
+			    var myrec,transcript;
+			    myrec=$("audio.myfavaudio")[0];
+			    transcript=$(".transcript")[0];
+			    hey.innerHTML=("");
+			    transcript.innerHTML="";
+			    myrec.src=data.recording;
+			    var heythere;
+			    var y,z,sometext;
+			    
+
+			    for (var i = 0;i<speakers.length;i++){
+				y=i+1;
+			        myspeaker=speakers[i];
+				sometext=myspeaker.text.split(" ");
+			        hey.innerHTML+=(`<tr class="speaker" id="position-${i}" data-position="${i}"><td lang="en">Start recording</td><td class="speaker-actions"><ul class="list-inline"><li aria-live=""><button data-eventid="${myspeaker["event_id"]}" class="jumptotime player-control btn btn-link" title="Play at this point in the recording"><span class="play" data-label="Play at this point in the recording"><i class="fa fa-play-circle-o fa-lg">&nbsp;</i><span class="sr-only">Play at this point in the recording</span></span><span class="pause" data-label="Pause" style="display: none;"><i class="fa fa-pause-circle-o fa-lg">&nbsp;</i><span class="sr-only">Pause</span></span></button></li>   <li><a class="share-link modalbox btn btn-link" role="button" title="Share a link to this point in the recording" href="./?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=FRENCH" data-target="#linkto-0"><i class="fa fa-link fa-lg">&nbsp;</i><span class="sr-only">Share a link to this point in the recording</span></a>   <div class="linktoseconds" id="linkto-0" style="display: none;"><p>Copy the following link to have a direct access to this point in the recording:</p><label for="directLink-0">Direct link</label><br><textarea id="directLink-0" class="direct-link">https://conf.unog.ch/digitalrecordings/index.html?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=ORIGINAL</textarea>   </div></li>   <li><button class="download_chunk btn btn-link" title="Download this speech" data-chunk-download-link="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3" href="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3"><i class="fa fa-download fa-lg">&nbsp;</i><span class="sr-only">Download this speech</span></button></li></ul></td><td>${myspeaker.time_debut}</td><td>${myspeaker.time_fin}</td></tr> `);
+
+			       heythere =(`<div s="${y}" class="original sentence" id="mysentence${y}" start="${myspeaker["tempsdebut"]}" end="${myspeaker["tempsfin"]}">`);
+			       var somelength=sometext.length;
+			       for (z=0;z<somelength;z++){
+
+
+			       heythere+=(`<span s="${y}">${sometext[z]}</span>`);
+				       if (z === (somelength - 1)) {
+				       transcript.innerHTML+=heythere+"</div>";
+			               }
+
+
+			       }
+
+
+
+			    }
+			}
+			$(".jumptotime").click(function(){
+				                           var mydiv=$(this)[0].parentElement.parentElement.parentElement.parentElement;
+				                               console.log(mydiv);
+
+
+				
+	var someaudio=$(playIconContainer.parentElement).children("audio")[0];
+				        var time=$(this)[0].parentElement.parentElement.parentElement.parentElement.children[3].innerHTML.replaceAll("\n\t","").replaceAll("\t","").replaceAll("\n","").replaceAll(" ","").split(":");
+				        var seconds=Number(time[0])*3600+Number(time[1])*60+Number(time[0]);
+				        var someaudio=$("audio[data-eventid="+$(this)[0].dataset.eventid+"]")[0];
+				if(state === "pause" && $(this).children(".play")[0].style.display === "none"){
+					                  someaudio.pause();
+					                                state = 'play';
+					                                  $(playIconContainer).html(playicon);
+					$(".jumptotime .play").show();
+					$(".jumptotime .pause").hide();
+				}else if ($(".jumptotime .pause[style*=\"display:block\"]").length > 0){
+					        someaudio.currentTime=seconds;
+					                                  someaudio.play();
+				                            var myel=document.getElementById('mysentence'+mydiv.dataset.position);
+				var otherel=myel.children[0];
+				                        myel.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+				                        //myel.scrollIntoViewIfNeeded(true);
+				                            otherel.classList.add("mysentence");
+				setInterval(function(){otherel.classList.remove("mysentence");},1000);
+					                                      state = 'pause';
+					                                  $(playIconContainer).html(pauseicon);
+					$(".jumptotime .play").show();
+					$(".jumptotime .pause").hide();
+					$(this).children(".play").hide();
+					$(this).children(".pause").show();
+				} else {
+					        someaudio.currentTime=seconds;
+					                                  someaudio.play();
+				                            var myel=document.getElementById('mysentence'+mydiv.dataset.position);
+				var otherel=myel.children[0];
+				                        myel.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+				                        //myel.scrollIntoViewIfNeeded(true);
+				                            otherel.classList.add("mysentence");
+				setInterval(function(){otherel.classList.remove("mysentence");},1000);
+					                                      state = 'pause';
+					                                  $(playIconContainer).html(pauseicon);
+					$(".jumptotime .play").show();
+					$(".jumptotime .pause").hide();
+
+					$(this).children(".play").hide();
+					$(this).children(".pause").show();
+				}
+
+			});
+			
+		}});
+	});
+
+	}
+	if($("[id=language1]").length > 0 && window.location.search.includes("?l=")){
+		$("[id=language1]").val(window.location.search.split("?l=")[1]);
+	}
+const playIconContainer = $('.play-icon');
+=======
 if ($(".audio.language input[name='language']").length > 0){
 $(".audio.language input[name='language']").change(function(){
 var l=$(".audio.language input[name='language']:checked")[0].value;
@@ -28,6 +132,7 @@ $("#language1")[0].value=window.location.href.split("hey=")[1]
 }
 const playIconContainer = $('.play-icon');
 if (playIconContainer.length > 0){
+>>>>>>> main
 let state = 'play',playicon="&#9658;",pauseicon="&#x23f8;";
 playIconContainer.html(playicon);
 playIconContainer.click(function(){
@@ -40,9 +145,20 @@ playIconContainer.click(function(){
 		  someaudio.pause();
 			        state = 'play';
 		  $(this).html(playicon);
+<<<<<<< HEAD
+
+			      }
+$(".jumptotime .play").show();
+$(".jumptotime .pause").hide();
+});
+const audio = $('audio');
+$(".jumptotime .play").show();
+$(".jumptotime .pause").hide();
+=======
 			      }
 });
 const audio = $('audio');
+>>>>>>> main
 
 	audio.on('loadedmetadata', function() {
 var calculateTime = (secs)=> {
@@ -129,24 +245,63 @@ audio.each(function(){
 	$(this)[0].load();
 
 });
-
 $(".jumptotime").click(function(){
+	var mydiv=$(this)[0].parentElement.parentElement.parentElement.parentElement;
+	                                                               console.log(mydiv);
+
+
 	var time=$(this)[0].parentElement.parentElement.parentElement.parentElement.children[3].innerHTML.replaceAll("\n\t","").replaceAll("\t","").replaceAll("\n","").replaceAll(" ","").split(":");
 	var seconds=Number(time[0])*3600+Number(time[1])*60+Number(time[0]);
 	var someaudio=$("audio[data-eventid="+$(this)[0].dataset.eventid+"]")[0];
+
+
+
+
+	//if (state === "play"){
+
+if(state === "pause" && $(this).children(".play")[0].style.display === "none"){
+		  someaudio.pause();
+			        state = 'play';
+		                  $(playIconContainer).html(playicon);
+$(".jumptotime .play").show();
+$(".jumptotime .pause").hide();
+}else if ($(".jumptotime .pause[style*=\"display:block\"]").length > 0){
 	someaudio.currentTime=seconds;
-	if(state === 'play') {
 		                  someaudio.play();
+	var myel=document.getElementById('mysentence'+mydiv.dataset.position);
+	var otherel = myel.children[0];
+	                                                        myel.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+	                                                        //myel.scrollIntoViewIfNeeded(true);
+	                                                            otherel.classList.add("mysentence");
+	                                setInterval(function(){otherel.classList.remove("mysentence");},1000);
 		                      state = 'pause';
 		                  $(playIconContainer).html(pauseicon);
-		                    } else {
-					                      someaudio.pause();
-					                                    state = 'play';
-					                      $(playIconContainer).html(playicon);
-					                                  }
+$(".jumptotime .play").show();
+$(".jumptotime .pause").hide();
+
+$(this).children(".play").hide();
+$(this).children(".pause").show();
+} else {
+	someaudio.currentTime=seconds;
+	
+
+		                  someaudio.play();
+	var myel=document.getElementById('mysentence'+mydiv.dataset.position);
+	var otherel = myel.children[0];
+	                                                        myel.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+	                                                        //myel.scrollIntoViewIfNeeded(true);
+	                                                            otherel.classList.add("mysentence");
+	                                setInterval(function(){otherel.classList.remove("mysentence");},1000);
+		                      state = 'pause';
+		                  $(playIconContainer).html(pauseicon);
+$(".jumptotime .play").show();
+$(".jumptotime .pause").hide();
+
+$(this).children(".play").hide();
+$(this).children(".pause").show();
+}
 	
 });
-}
 
 //#const displayAudioDuration = () => {
 //          var durationContainer = $(this).children('.duration');
@@ -195,7 +350,6 @@ $(".jumptotime").click(function(){
 
 		}
 	});
-
 
 
 

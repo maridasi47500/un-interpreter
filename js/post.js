@@ -3,7 +3,11 @@ const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 $('.carousel').carousel();
 
+<<<<<<< HEAD
+$('form.searchrecording').on('submit', function () {
+=======
 $('form.searchrecording:not(.formipa)').on('submit', function () {
+>>>>>>> main
   if (window.filesize > 1024*5) {
     alert('max upload size is 5k');
 return false;

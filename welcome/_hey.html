@@ -16,7 +16,7 @@
                           <div class="span8 col-md-9 col-md-offset-2">
                             <div class="" class="audio_languages">
                               <div class="select-language-label">Select audio language:</div>
-                              <div class="audio_language_list"><fieldset><legend class="visually-hidden">Language</legend><label class="audio_language first_language"><input name="language" value="ORIGINAL.mp3" type="radio">Floor</label>  <label class="audio_language"><input name="language" value="ARABIC.mp3" type="radio"><span class="language-label"><span>Arabic</span><span class="language-transcript">with transcript</span></span></label> <label class="audio_language"><input name="language" value="CHINESE.mp3" type="radio"><span class="language-label"><span>Chinese</span><span class="language-transcript">with transcript</span></span></label> <label class="audio_language"><input name="language" value="ENGLISH.mp3" type="radio"><span class="language-label"><span>English</span><span class="language-transcript">with transcript</span></span></label> <label class="audio_language"><input name="language" value="FRENCH.mp3" type="radio"><span class="language-label"><span>French</span><span class="language-transcript">with transcript</span></span></label> <label class="audio_language"><input name="language" value="RUSSIAN.mp3" type="radio"><span class="language-label"><span>Russian</span><span class="language-transcript">with transcript</span></span></label> <label class="audio_language"><input name="language" value="SPANISH.mp3" type="radio"><span class="language-label"><span>Spanish</span><span class="language-transcript">with transcript</span></span></label></fieldset></div>
+			      <div data-someeventid="<%=event["id"]%>" class="audio_language_list"><fieldset><legend class="visually-hidden">Language</legend><label class="audio_language first_language"><input name="language" value="ORIGINAL.mp3" type="radio">Floor</label>  <label class="audio_language"><input name="language" value="ARABIC.mp3" type="radio"><span class="language-label"><span>Arabic</span><span class="language-transcript">with transcript</span></span></label> <label class="audio_language"><input name="language" value="CHINESE.mp3" type="radio"><span class="language-label"><span>Chinese</span><span class="language-transcript">with transcript</span></span></label> <label class="audio_language"><input name="language" value="ENGLISH.mp3" type="radio"><span class="language-label"><span>English</span><span class="language-transcript">with transcript</span></span></label> <label class="audio_language"><input name="language" value="FRENCH.mp3" type="radio"><span class="language-label"><span>French</span><span class="language-transcript">with transcript</span></span></label> <label class="audio_language"><input name="language" value="RUSSIAN.mp3" type="radio"><span class="language-label"><span>Russian</span><span class="language-transcript">with transcript</span></span></label> <label class="audio_language"><input name="language" value="SPANISH.mp3" type="radio"><span class="language-label"><span>Spanish</span><span class="language-transcript">with transcript</span></span></label></fieldset><span title="ajouter un enregistrement" class="ajouterenregistrement" onclick="($('[name=language]:checked').length > 0 ? (window.location.href='/ajouterenregistrement/<%=event["id"]%>?l='+$('[name=language]:checked').val().split('.')[0]) : alert('choisir 1 langue'));">&#127911; ajouter un enregistrement</span></div>
                               <a class="download-current" class="download" download="CRC-95TH-SESSION--FRENCH.mp3" href="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/FRENCH.mp3" target="_blank"><i class="fa fa-download fa-lg">&nbsp;</i>Download current language<i class="icon-download">&nbsp;</i></a><a class="download-all" class="download" download="" href="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/CRC-95TH-SESSION.zip"><i class="fa fa-download fa-lg">&nbsp;</i> Download all languages<i class="icon-download">&nbsp;</i></a>
                             </div>
                           </div>
@@ -26,7 +26,7 @@
 					      <div class="audio-player-container">
 						        <p>Audio Player</p>
 							  <!-- swaps with pause icon -->
-							  <audio data-eventid="<%=event["id"]%>" src="/uploads/<%=event["recording"]%>"  codecs="mp3"></audio>
+							  <audio class="myfavaudio" data-eventid="<%=event["id"]%>" src="/uploads/<%=event["recording"]%>"  codecs="mp3"></audio>
 							    <button class="play-icon"></button>
 							      <span class="current-time" class="time">0:00</span>
 							        <input type="range" class="seek-slider" max="100" value="0">
@@ -36,7 +36,7 @@
 								  <output class="volume-output">100</output>
 
 							        <span class="temps-restant" class="time">0:00</span>
-								<select name="vitesse">
+								<select onchange="$('audio.myfavaudio[data-eventid='+this.dataset.selecteventid+']')[0].playbackRate=this.value;" name="vitesse" data-selecteventid="<%=event["id"]%>">
 									<option value="2">2x</option>
 									<option value="1.5">1.5x</option>
 									<option selected value="1">1x</option>

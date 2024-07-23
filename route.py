@@ -31,7 +31,6 @@ class Route():
         self.dbEvent=Event()
         self.dbPersonne=Person()
         self.dbHack=Hack()
-        
         self.render_figure=RenderFigure(self.Program)
         self.getparams=("id",)
     def set_post_data(self,x):
@@ -117,7 +116,7 @@ class Route():
           self.set_code422(True)
           self.set_notice("erreur quand votre évènement a été ajouté")
         return self.render_some_json("welcome/redirect.json")
-    def nouveaulieu(self,search):
+    def nouveauhack(self,search):
         myparam=self.get_post_data()(params=("pic","name",))
         self.render_figure.set_param("redirect","/")
         x=self.dbLieu.create(myparam)
@@ -132,15 +131,6 @@ class Route():
         x=self.dbHack.create(myparam)
         if x:
           self.set_notice("votre hack a été ajouté")
-        else:
-          self.set_code422(True)
-        return self.render_some_json("welcome/redirect.json")
-    def nouvelenregistrement(self,search):
-        myparam=self.get_post_data()(params=("event_id","language","recording",))
-        self.render_figure.set_param("redirect","/")
-        x=self.dbRecording.create(myparam)
-        if x:
-          self.set_notice("votre enregistrement a été ajoutée")
         else:
           self.set_code422(True)
         return self.render_some_json("welcome/redirect.json")
@@ -258,25 +248,8 @@ class Route():
     def ajouterevent(self,search):
 
         return self.render_figure.render_figure("ajouter/event.html")
-    def ajouterenregistrement(self,search):
-        getparams=("id",)
-
-        print("get param, action see my new",getparams)
-        myparam=self.get_this_route_param(getparams,params)
-
-        try:
-          event1=self.dbEvent.getbyid(myparam["id"])
-          self.render_figure.set_param("myid",myparam["id"])
-          self.render_figure.set_param("event",event1)
-        except:
-          print("i missed event")
-        return self.render_figure.render_figure("ajouter/enregistrement.html")
-    def ajouterlieu(self,search):
-        return self.render_figure.render_only_figure("ajouter/lieu.html")
     def ajouterhack(self,search):
-        self.render_figure.set_param("personnes",self.dbPersonne.getall())
-        self.render_figure.set_param("lieux",self.dbLieu.getall())
-        return self.render_figure.render_only_figure("ajouter/hack.html")
+        return self.render_figure.render_only_figure("ajouter/lieu.html")
     def ajouterrumeur(self,search):
         self.render_figure.set_param("personnes",self.dbPersonne.getall())
         self.render_figure.set_param("lieux",self.dbLieu.getall())
@@ -322,6 +295,36 @@ class Route():
         #self.set_redirect("/signin")
         #return self.render_figure.render_redirect()
         return self.render_figure.render_my_json("{\"redirect\":\"/signin\"}")
+    def ajouterenregistrement(self,params):
+        getparams=("id",)
+        print("get param, action see my new",getparams)
+        myparam=self.get_this_route_param(getparams,params)
+        l=params["l"][0]#langue
+        try:
+            event1=self.dbEvent.getbyid(myparam["id"])
+            self.render_figure.set_param("myid",myparam["id"])
+            self.render_figure.set_param("l",l)
+            self.render_figure.set_param("event",event1)
+        except:
+            print("i missed event")
+        return self.render_figure.render_figure("ajouter/enregistrement.html")
+    def nouvelenregistrement(self,search):
+        myparam=self.get_post_data()(params=("event_id","language","recording",))
+        self.render_figure.set_param("redirect","/")
+        x=self.dbRecording.create(myparam)
+        if x:
+            self.set_notice(x["notice"])
+        else:
+            self.set_code422(True)
+        return self.render_some_json("welcome/redirect.json")
+    def getenregistrement(self,params):
+        getparams=("id",)
+        print("get param, action see my new",getparams)
+        myparam=self.get_this_route_param(getparams,params)
+        l=params["l"][0]#langue
+        x=self.dbRecording.getbyeventidlanguage(myparam["id"], l)
+        self.render_figure.set_param("event",x)
+        return self.render_some_json("welcome/somerecording.json")
     def run(self,redirect=False,redirect_path=False,path=False,session=False,params={},url=False,post_data=False):
         if post_data:
             print("post data")
@@ -370,10 +373,9 @@ class Route():
             "^/lieu/([0-9]+)$":self.voirlieu,
             '^/nouveauevent$': self.nouveauevent,
             '^/ajouterevent$': self.ajouterevent,
-            '^/getipa$': self.getipa,
             '^/getenregistrement/([0-9]+)$': self.getenregistrement,
-            '^/nouvelenregistrement/([0-9]+)$': self.nouvelenregistrement,
-            '^/ajouterenregistrement$': self.ajouterenregistrement,
+                        '^/nouvelenregistrement$': self.nouvelenregistrement,
+                                    '^/ajouterenregistrement/([0-9]+)$': self.ajouterenregistrement,
             '^/new$': self.nouveau,
             '^/welcome$': self.welcome,
             '^/signin$': self.signin,
@@ -409,4 +411,5 @@ class Route():
                    return self.Program
                else:
                    self.Program.set_html(html="<p>la page n'a pas été trouvée</p><a href=\"/\">retour à l'accueil</a>")
+            self.Program.set_html(("<p>une erreur s'est produite dans la route qui n'a pas été trouvée (\""+path+"\") </p><a href=\"/\">retour à l'accueil</a>").encode("utf-8"))
         return self.Program

@@ -1,0 +1,12 @@
+<%="," if paspremier else ""%>{
+	<%tempssec=speaker["time_debut"]%>
+	<%heure=str(speaker["heure"]).split(":")%>
+	                                                <%heure_h=int(heure[0])%>
+							                                                                <%heure_min=int(heure[1])%>
+	"event_id": "<%=speaker["event_id"]%>",
+	"tempsdebut": "<%=tempssec%>",
+	"tempsfin": "<%=speaker["time_fin"]%>",
+	"time_debut": "<%=str(datetime.timedelta(seconds=(heure_h*60*60+heure_min*60+int(tempssec))))%>",
+	"time_fin": "<%=str(datetime.timedelta(seconds=int(tempssec)))%>",
+	"text": "<%=speaker["text"]%>"
+}

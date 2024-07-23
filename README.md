@@ -2,7 +2,7 @@
 - bienvenue sur UN portal recordings (Digital Recordings Portal) :musical_note: :headphones: :sound: 
 - lancer:
 ```
-$ python3 creerorg
+$ python3 creerorg.py
 ```
 - lancer:
 ```

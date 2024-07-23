@@ -1,4 +1,4 @@
-<div s="<%=speaker["id"]%>" class="original sentence" id="mysentence<%=speaker["id"]%>" start="<%=speaker["time_debut"]%>" end="<%=speaker["time_fin"]%>">
+<div s="<%=speaker["id"]%>" class="original sentence" id="mysentence<%=index%>" start="<%=speaker["time_debut"]%>" end="<%=speaker["time_fin"]%>">
 	<%hello=speaker["id"]%>
 	<%mylist=speaker["text"].split(" ")%>
 	<%mytext=[dict([("word",value)]) for value in mylist ]%>

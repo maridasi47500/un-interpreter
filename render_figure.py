@@ -96,6 +96,7 @@ class RenderFigure():
         print("render collection")
         try:
             myview=open(os.path.abspath("./"+partial),"r").read()
+            k=["hey"]
             mystr=""
             i=0
             paspremier=False
@@ -108,32 +109,37 @@ class RenderFigure():
                 loc["index"]=i
                 loc["paspremier"]=paspremier
                 loc[as_]=x
-
+                print("Hey There",x)
                 for j in myview.split("<%"):
                     ligne+=j.count("\r\n")
-                    if j[0] == "=":
+                    if len(j) == 0:
+                        print("Hello length string = 0")
+                    elif j[0] == "=":
+
                         j=j[1:]
+                        print("Hello",j)
                         if "%>" not in j:
                             mystr+=j
                             continue
 
                         k=j.split("%>")
-                        print(dict(x))
+                        #print(dict(x))
                         if k[0]:
-                            print(k[0], "content render")
-                            print(k[0])
+                            #print(k[0], "content render")
+                            #print(k[0])
                             l=exec("myvalue="+k[0], globals(), loc)
                             mystr+=str(loc["myvalue"])
                         if k[1]:
                             mystr+=k[1]
                     else:
+                        print("Hello",j)
                         if "%>" not in j:
                             mystr+=j
                             continue
 
                         k=j.split("%>")
 
-                        print(dict(x))
+                        #print(dict(x))
                         if k[0]:
                             print(k[0], "content render")
                             print(k[0])
@@ -221,11 +227,15 @@ class RenderFigure():
         except:
           return self.body
     def render_figure(self,filename):
-        self.body+=open(os.path.abspath(self.path+"/"+filename),"r").read()
-        if self.mytemplate is not None:
-            self.body= open(os.path.abspath(self.mytemplate),"r").read().format(debutmots=self.title, mot=self.headingone,plusdemot=self.body)
-        self.body=self.render_body()
         try:
-          return self.body.encode("utf-8")
-        except:
-          return self.body
+          self.body+=open(os.path.abspath(self.path+"/"+filename),"r").read()
+          if self.mytemplate is not None:
+              self.body= open(os.path.abspath(self.mytemplate),"r").read().format(debutmots=self.title, mot=self.headingone,plusdemot=self.body)
+          self.body=self.render_body()
+          try:
+            return self.body.encode("utf-8")
+          except:
+            return self.body
+        except Exception as e:
+          print("erreur"+str(e),traceback.format_exc())
+          return ("<p>une erreur s'est produite dans le code render figure  "+(traceback.format_exc())+"</p><a href=\"/\">retour >à  l'accueil</a>").encode("utf-8")
