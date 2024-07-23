@@ -2,6 +2,13 @@
 
 			<li><button class="download_chunk btn btn-link" title="Download this speech" data-chunk-download-link="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3" href="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3"><i class="fa fa-download fa-lg">&nbsp;</i><span class="sr-only">Download this speech</span></button></li>
 			<li><span onclick="myhighlight(<%=speaker["id"]%>);return false;">&#128129; text to speech </span></li>
+			<li>
+				<form action="/getipa" method="post" class="formipa">
+				<input type="hidden" value="<%=speaker["id"]%>" name="myid" />
+				<input type="submit" name="voir" value="voir l'IPA"/>
+
+				</form>
+			</li>
 
 
 		</ul></td><td> <%tempssec=speaker["time_debut"]%>
