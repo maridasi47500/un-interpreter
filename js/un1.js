@@ -1,7 +1,10 @@
 
                  function highlight(mynumber,text, from, to) {
-                     const replacement = `</span><span s="${mynumber}" style="background-color: grey;">${text.slice(from, to)}`;
-                         return '<span s="'+String(mynumber)+'">'+text.substring(0, from).replace(" ",'</span><span s="'+String(mynumber)+'">') + replacement + text.substring(to)+"</span>";
+                     const replacement = `<span s="${mynumber}" style="background-color: grey;">${text.slice(from, to)}</span>`;
+                         console.log(JSON.stringify(text.substring(0, from)));
+                         console.log(text.substring(0, to));
+                         //return '<span s="'+String(mynumber)+'">'+(text.substring(0, from)).replaceAll("\n",'</span><span s="'+String(mynumber)+'">') + replacement +""+ (text.substring(to)).replaceAll("\n",'</span><span s="'+String(mynumber)+'">')+"</span>";
+                         return '<span s="'+String(mynumber)+'">'+(text.substring(0, from)).replaceAll("\n",'</span><span s="'+String(mynumber)+'">')+"</span>" + replacement + '<span s="'+String(mynumber)+'">' +""+ (text.substring(to)).replaceAll("\n",'</span><span s="'+String(mynumber)+'">')+"</span>";
                          }
  const synth = window.speechSynthesis;
 
@@ -35,5 +38,5 @@ function myhighlight(mynumber) {
 
                  // Helper function to highlight text
 
-	return false;
+	//return false;
 }
