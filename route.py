@@ -82,6 +82,8 @@ class Route():
         return self.render_figure.render_figure("welcome/chat.html")
     def welcome(self,search):
         return self.render_figure.render_figure("welcome/index.html")
+    def getenregistrement(self,search):
+        return self.render_some_json("welcome/somerecording.json")
     def audio_save(self,search):
         myparam=self.get_post_data()(params=("recording",))
         hi=self.dbRecording.create(myparam)
@@ -226,6 +228,11 @@ class Route():
         self.user=self.dbUsers.update(params)
         self.set_session(self.user)
         self.set_redirect(("/seeuser/"+params["id"][0]))
+    def getipa(self,s):
+        search=self.get_post_data()(params=("myid",))
+        self.user=self.Speaker.getbyid(search["myid"],)
+        self.render_figure.set_param("text",self.user)
+        return self.render_some_json("welcome/ipa.json")
     def login(self,s):
         search=self.get_post_data()(params=("email","password","password_security"))
         self.user=self.dbUsers.getbyemailpwsecurity(search["email"],search["password"],search["password_security"])

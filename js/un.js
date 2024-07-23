@@ -8,6 +8,7 @@ function getMonthName(date) {
 
 
 $(function(){
+<<<<<<< HEAD
 	if($(".audio_language_list [name='language']").length > 0){
 	$(".audio_language_list [name='language']").change(function(){
 		$.ajax({url:("/getenregistrement/"+$(".audio_language_list")[0].dataset.someeventid+"?l="+$(this).val().replace(".mp3","")),
@@ -110,6 +111,28 @@ $(function(){
 		$("[id=language1]").val(window.location.search.split("?l=")[1]);
 	}
 const playIconContainer = $('.play-icon');
+=======
+if ($(".audio.language input[name='language']").length > 0){
+$(".audio.language input[name='language']").change(function(){
+var l=$(".audio.language input[name='language']:checked")[0].value;
+$.ajax({
+type:"post",
+url:"/getenregistrement",
+data:{language:l},
+success:function(data){
+if (data.nbrecording.length === 0 && confirm("ajouter un enregistrement pour "+l+" ?")){
+window.location="/getenregistrement/"+$("[data-eventid]")[0].dataset.eventid+"?hey="+l;
+};
+}
+});
+});
+}
+if (window.location.href.includes("nouvelenregistrement")){
+$("#language1")[0].value=window.location.href.split("hey=")[1]
+}
+const playIconContainer = $('.play-icon');
+if (playIconContainer.length > 0){
+>>>>>>> main
 let state = 'play',playicon="&#9658;",pauseicon="&#x23f8;";
 playIconContainer.html(playicon);
 playIconContainer.click(function(){
@@ -122,6 +145,7 @@ playIconContainer.click(function(){
 		  someaudio.pause();
 			        state = 'play';
 		  $(this).html(playicon);
+<<<<<<< HEAD
 
 			      }
 $(".jumptotime .play").show();
@@ -130,6 +154,11 @@ $(".jumptotime .pause").hide();
 const audio = $('audio');
 $(".jumptotime .play").show();
 $(".jumptotime .pause").hide();
+=======
+			      }
+});
+const audio = $('audio');
+>>>>>>> main
 
 	audio.on('loadedmetadata', function() {
 var calculateTime = (secs)=> {

@@ -3,6 +3,9 @@
 - lancer:
 ```
 $ python3 creerorg.py
+```
+- lancer:
+```
 $ sh mysite.sh
 ```
 - visit http://localhost:3000

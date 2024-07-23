@@ -4,14 +4,20 @@ import sys
 import re
 from model import Model
 from texttospeech import Texttospeech
+<<<<<<< HEAD
 from organization import Organization
+=======
+>>>>>>> main
 from speaker import Speaker
 class Event(Model):
     def __init__(self):
         self.con=sqlite3.connect(self.mydb)
         self.con.row_factory = sqlite3.Row
         self.dbSpeaker=Speaker()
+<<<<<<< HEAD
         self.dbOrganization=Organization()
+=======
+>>>>>>> main
         self.cur=self.con.cursor()
         self.cur.execute("""create table if not exists event(
         id integer primary key autoincrement,
@@ -25,6 +31,7 @@ class Event(Model):
                     );""")
         self.con.commit()
         #self.con.close()
+<<<<<<< HEAD
     def getall_speaker_withid(self,myid):
         self.cur.execute("select event.*,organization.name as organizationname,event.place_id as place from event left join organization on organization.myvalue = event.organization_id group by event.id having event.id = ?", (myid,))
 
@@ -39,6 +46,8 @@ class Event(Model):
         else:
           y["speakers"]=[]
         return y
+=======
+>>>>>>> main
     def getall_speaker(self):
         self.cur.execute("select event.*,organization.name as organizationname,event.place_id as place from event left join organization on organization.myvalue = event.organization_id group by event.id")
 
