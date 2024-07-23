@@ -1,12 +1,12 @@
 from espeakng import ESpeakNG
 class Ipa():
-    def __init__(self,text="Hello World",pitch=32,speed=150,voice="english-us"):
+    def __init__(self,text="Hello World",pitch=32,speed=150,voice="en",gender="female"):
         #voice = erman
         self.esng=ESpeakNG()
         self.esng.pitch=pitch
         self.esng.speed=speed
         self.esng.voice=voice
         self.text=text
-    def to_ipa(self,ipa=2)
+    def to_ipa(self,ipa=2):
         ipa1=self.esng.g2p(self.text,ipa=ipa)
-        return ipa1
+        return ipa1.replace("shared memfd open() failed: Function not implemented","")

@@ -7,7 +7,9 @@ from mymusic import Music
 from place import Place
 from event import Event
 from person import Person
+from alphabet import Ipa
 from hack import Hack
+from speaker import Speaker
 from gossip import Gossip
 
 
@@ -26,6 +28,7 @@ class Route():
         self.mysession={"notice":None,"email":None,"name":None}
         self.dbScript=Myscript()
         self.dbRecording=Myrecording()
+        self.Speaker=Speaker()
         self.dbRumeur=Gossip()
         self.dbLieu=Place()
         self.dbEvent=Event()
@@ -230,8 +233,8 @@ class Route():
         self.set_redirect(("/seeuser/"+params["id"][0]))
     def getipa(self,s):
         search=self.get_post_data()(params=("myid",))
-        self.user=self.Speaker.getbyid(search["myid"],)
-        self.render_figure.set_param("text",self.user)
+        self.user=self.Speaker.getbyid(search["myid"])
+        self.render_figure.set_param("text",Ipa(text=self.user["text"]).to_ipa())
         return self.render_some_json("welcome/ipa.json")
     def login(self,s):
         search=self.get_post_data()(params=("email","password","password_security"))
@@ -377,6 +380,7 @@ class Route():
                         '^/nouvelenregistrement$': self.nouvelenregistrement,
                                     '^/ajouterenregistrement/([0-9]+)$': self.ajouterenregistrement,
             '^/new$': self.nouveau,
+            '^/getipa$': self.getipa,
             '^/welcome$': self.welcome,
             '^/signin$': self.signin,
             '^/logmeout$':self.logout,

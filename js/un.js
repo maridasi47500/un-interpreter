@@ -8,7 +8,6 @@ function getMonthName(date) {
 
 
 $(function(){
-<<<<<<< HEAD
 	if($(".audio_language_list [name='language']").length > 0){
 	$(".audio_language_list [name='language']").change(function(){
 		$.ajax({url:("/getenregistrement/"+$(".audio_language_list")[0].dataset.someeventid+"?l="+$(this).val().replace(".mp3","")),
@@ -33,7 +32,18 @@ $(function(){
 				y=i+1;
 			        myspeaker=speakers[i];
 				sometext=myspeaker.text.split(" ");
-			        hey.innerHTML+=(`<tr class="speaker" id="position-${i}" data-position="${i}"><td lang="en">Start recording</td><td class="speaker-actions"><ul class="list-inline"><li aria-live=""><button data-eventid="${myspeaker["event_id"]}" class="jumptotime player-control btn btn-link" title="Play at this point in the recording"><span class="play" data-label="Play at this point in the recording"><i class="fa fa-play-circle-o fa-lg">&nbsp;</i><span class="sr-only">Play at this point in the recording</span></span><span class="pause" data-label="Pause" style="display: none;"><i class="fa fa-pause-circle-o fa-lg">&nbsp;</i><span class="sr-only">Pause</span></span></button></li>   <li><a class="share-link modalbox btn btn-link" role="button" title="Share a link to this point in the recording" href="./?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=FRENCH" data-target="#linkto-0"><i class="fa fa-link fa-lg">&nbsp;</i><span class="sr-only">Share a link to this point in the recording</span></a>   <div class="linktoseconds" id="linkto-0" style="display: none;"><p>Copy the following link to have a direct access to this point in the recording:</p><label for="directLink-0">Direct link</label><br><textarea id="directLink-0" class="direct-link">https://conf.unog.ch/digitalrecordings/index.html?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=ORIGINAL</textarea>   </div></li>   <li><button class="download_chunk btn btn-link" title="Download this speech" data-chunk-download-link="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3" href="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3"><i class="fa fa-download fa-lg">&nbsp;</i><span class="sr-only">Download this speech</span></button></li></ul></td><td>${myspeaker.time_debut}</td><td>${myspeaker.time_fin}</td></tr> `);
+			        hey.innerHTML+=(`<tr class="speaker" id="position-${i}" data-position="${i}"><td lang="en">Start recording</td><td class="speaker-actions"><ul class="list-inline"><li aria-live=""><button data-eventid="${myspeaker["event_id"]}" class="jumptotime player-control btn btn-link" title="Play at this point in the recording"><span class="play" data-label="Play at this point in the recording"><i class="fa fa-play-circle-o fa-lg">&nbsp;</i><span class="sr-only">Play at this point in the recording</span></span><span class="pause" data-label="Pause" style="display: none;"><i class="fa fa-pause-circle-o fa-lg">&nbsp;</i><span class="sr-only">Pause</span></span></button></li>   <li><a class="share-link modalbox btn btn-link" role="button" title="Share a link to this point in the recording" href="./?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=FRENCH" data-target="#linkto-0"><i class="fa fa-link fa-lg">&nbsp;</i><span class="sr-only">Share a link to this point in the recording</span></a>   <div class="linktoseconds" id="linkto-0" style="display: none;"><p>Copy the following link to have a direct access to this point in the recording:</p><label for="directLink-0">Direct link</label><br><textarea id="directLink-0" class="direct-link">https://conf.unog.ch/digitalrecordings/index.html?guid=public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02&amp;position=0&amp;channel=ORIGINAL</textarea>   </div></li>   <li><button class="download_chunk btn btn-link" title="Download this speech" data-chunk-download-link="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3" href="/dr/public/61.0060/C863C522-8B84-4FFC-A5C2-CE2A4EFFEBBB_15h02/chunks/snippet_lCURLANGs0-00t0-17.mp3"><i class="fa fa-download fa-lg">&nbsp;</i><span class="sr-only">Download this speech</span></button></li>
+				<li><span onclick="myhighlight(${myspeaker["id"]});return false;">&#128129; text to speech </span></li>
+				                        <li>
+							                                <form action="/getipa" method="post" class="formipa">
+											                                <input type="hidden" value="${myspeaker["id"]}" name="myid" />
+					                                <input type="submit" name="voir" value="voir l'IPA"/>
+
+					                                </form>
+					                        </li>
+				
+					
+					</ul></td><td>${myspeaker.time_debut}</td><td>${myspeaker.time_fin}</td></tr> `);
 
 			       heythere =(`<div s="${y}" class="original sentence" id="mysentence${y}" start="${myspeaker["tempsdebut"]}" end="${myspeaker["tempsfin"]}">`);
 			       var somelength=sometext.length;
@@ -111,28 +121,6 @@ $(function(){
 		$("[id=language1]").val(window.location.search.split("?l=")[1]);
 	}
 const playIconContainer = $('.play-icon');
-=======
-if ($(".audio.language input[name='language']").length > 0){
-$(".audio.language input[name='language']").change(function(){
-var l=$(".audio.language input[name='language']:checked")[0].value;
-$.ajax({
-type:"post",
-url:"/getenregistrement",
-data:{language:l},
-success:function(data){
-if (data.nbrecording.length === 0 && confirm("ajouter un enregistrement pour "+l+" ?")){
-window.location="/getenregistrement/"+$("[data-eventid]")[0].dataset.eventid+"?hey="+l;
-};
-}
-});
-});
-}
-if (window.location.href.includes("nouvelenregistrement")){
-$("#language1")[0].value=window.location.href.split("hey=")[1]
-}
-const playIconContainer = $('.play-icon');
-if (playIconContainer.length > 0){
->>>>>>> main
 let state = 'play',playicon="&#9658;",pauseicon="&#x23f8;";
 playIconContainer.html(playicon);
 playIconContainer.click(function(){
@@ -145,7 +133,6 @@ playIconContainer.click(function(){
 		  someaudio.pause();
 			        state = 'play';
 		  $(this).html(playicon);
-<<<<<<< HEAD
 
 			      }
 $(".jumptotime .play").show();
@@ -154,11 +141,6 @@ $(".jumptotime .pause").hide();
 const audio = $('audio');
 $(".jumptotime .play").show();
 $(".jumptotime .pause").hide();
-=======
-			      }
-});
-const audio = $('audio');
->>>>>>> main
 
 	audio.on('loadedmetadata', function() {
 var calculateTime = (secs)=> {
