@@ -7,15 +7,15 @@ from texttospeech import Texttospeech
 from organization import Organization
 from convert import Socialmedia
 
-from speaker import Speaker
+from speaker import Socialloginspeaker
 class Mysocialmedia(Model):
     def __init__(self):
         self.con=sqlite3.connect(self.mydb)
         self.con.row_factory = sqlite3.Row
-        self.dbSpeaker=Speaker()
+        self.dbSpeaker=Socialloginspeaker()
         self.dbOrganization=Organization()
         self.cur=self.con.cursor()
-        self.cur.execute("""create table if not exists event(
+        self.cur.execute("""create table if not exists mysocialmedia(
         id integer primary key autoincrement,
         date text,
             title text,
@@ -28,7 +28,7 @@ class Mysocialmedia(Model):
 
         x=self.cur.fetchone()
         y=dict(x)
-        self.cur.execute("select speaker.*,e.heure from speaker left join event e on e.id = speaker.event_id group by speaker.id having speaker.event_id = ? ",(myid,))
+        self.cur.execute("select socialloginspeaker.*,e.heure from socialloginspeaker left join mysocialmedia e on e.id = speaker.socialloginspeaker_id group by socialloginspeaker.id having socialloginspeaker.mysocialmedia_id = ? ",(myid,))
         hey=self.cur.fetchall()
         y["language"]="ORIGINAL"
         y["nombre"]="1"
@@ -38,13 +38,13 @@ class Mysocialmedia(Model):
           y["speakers"]=[]
         return y
     def getall_speaker(self):
-        self.cur.execute("select event.*,organization.name as organizationname,event.place_id as place from event left join organization on organization.myvalue = event.organization_id group by event.id")
+        self.cur.execute("select * from mysocialmedia")
 
         row=self.cur.fetchall()
         rows=[]
         for x in row:
             y=dict(x)
-            self.cur.execute("select speaker.*,e.heure from speaker left join event e on e.id = speaker.event_id group by speaker.id having speaker.event_id = ? ",(x["id"],))
+            self.cur.execute("select socialloginspeaker.* from socialloginspeaker left join mysocialmedia e on e.id = socialloginspeaker.mysocialmedia_id group by socialloginspeaker.id having socialloginspeaker.mysocialmedia_id = ? ",(x["id"],))
             hey=self.cur.fetchall()
             if hey:
               y["speakers"]=hey
@@ -54,18 +54,18 @@ class Mysocialmedia(Model):
         return rows
 
     def getall(self):
-        self.cur.execute("select * from event")
+        self.cur.execute("select * from mysocialmedia")
 
         row=self.cur.fetchall()
         return row
     def deletebyid(self,myid):
 
-        self.cur.execute("delete from event where id = ?",(myid,))
+        self.cur.execute("delete from mysocialmedia where id = ?",(myid,))
         job=self.cur.fetchall()
         self.con.commit()
         return None
     def getbyid(self,myid):
-        self.cur.execute("select event.* where event.id = ?",(myid,))
+        self.cur.execute("select mysocialmedia.* where mysocialmedia.id = ?",(myid,))
         row=dict(self.cur.fetchone())
         print(row["id"], "row id")
         job=self.cur.fetchall()
@@ -98,7 +98,7 @@ class Mysocialmedia(Model):
         duration=60
 
         try:
-          self.cur.execute("insert into event (recording,title) values (:recording,:title)",myhash)
+          self.cur.execute("insert into mysocialmedia (recording,title) values (:recording,:title)",myhash)
           self.con.commit()
           myid=str(self.cur.lastrowid)
         except Exception as e:
@@ -117,8 +117,8 @@ class Mysocialmedia(Model):
         except Exception as e:
           print("Hey",e)
         azerty={}
-        azerty["event_id"]=myid
-        azerty["notice"]="votre event a été ajouté"
+        azerty["mysocialmedia_id"]=myid
+        azerty["notice"]="votre mysocialmedia a été ajouté"
         return azerty
 
 
