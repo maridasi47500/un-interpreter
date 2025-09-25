@@ -3,15 +3,15 @@ import sqlite3
 import sys
 import re
 from model import Model
-class Speaker(Model):
+class Socialloginspeaker(Model):
     def __init__(self):
         self.con=sqlite3.connect(self.mydb)
         self.con.row_factory = sqlite3.Row
         self.cur=self.con.cursor()
-        self.cur.execute("""create table if not exists speaker(
+        self.cur.execute("""create table if not exists socialloginspeaker(
         id integer primary key autoincrement,
         name string,
-            event_id integer,
+            mysocialmedia_id integer,
             time_debut integer,
             time_fin integer,
             text text
@@ -19,18 +19,18 @@ class Speaker(Model):
         self.con.commit()
         #self.con.close()
     def getall(self):
-        self.cur.execute("select * from speaker")
+        self.cur.execute("select * from socialloginspeaker")
 
         row=self.cur.fetchall()
         return row
     def deletebyid(self,myid):
 
-        self.cur.execute("delete from speaker where id = ?",(myid,))
+        self.cur.execute("delete from socialloginspeaker where id = ?",(myid,))
         job=self.cur.fetchall()
         self.con.commit()
         return None
     def getbyid(self,myid):
-        self.cur.execute("select * from speaker where id = ?",(myid,))
+        self.cur.execute("select * from socialloginspeaker where id = ?",(myid,))
         row=dict(self.cur.fetchone())
         print(row["id"], "row id")
         job=self.cur.fetchall()
@@ -53,14 +53,14 @@ class Speaker(Model):
         print(myhash,myhash.keys())
         myid=None
         try:
-          self.cur.execute("insert into speaker (name,event_id,time_debut,time_fin,text) values (:name,:event_id,:time_debut,:time_fin,:text)",myhash)
+          self.cur.execute("insert into socialloginspeaker (name,mysocialmedia_id,time_debut,time_fin,text) values (:name,:mysocialmedia_id,:time_debut,:time_fin,:text)",myhash)
           self.con.commit()
           myid=str(self.cur.lastrowid)
         except Exception as e:
           print("my error"+str(e))
         azerty={}
-        azerty["speaker_id"]=myid
-        azerty["notice"]="votre speaker a été ajouté"
+        azerty["socialloginspeaker_id"]=myid
+        azerty["notice"]="votre socialloginspeaker a été ajouté"
         return azerty
 
 
