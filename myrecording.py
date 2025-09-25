@@ -6,6 +6,7 @@ from model import Model
 from texttospeech import Texttospeech
 from speakerrecording import Speakerrecording
 from event import Event
+from convert import Socialmedia
 class Myrecording(Model):
     def __init__(self):
         self.con=sqlite3.connect(self.mydb)
@@ -82,6 +83,11 @@ class Myrecording(Model):
         print(myhash,myhash.keys())
         myid=None
         azerty={}
+        if myhash['recording'].endswith('m4a'):
+          hey=Socialmedia(myhash['recording']).ok()
+          myhash['recording']=myhash['recording'].replace('.m4a','.mp3')
+
+          
         try:
           self.cur.execute("insert into myrecording (recording,language,event_id) values (:recording,:language,:event_id)",myhash)
           self.con.commit()

@@ -3,6 +3,7 @@ from render_figure import RenderFigure
 from myscript import Myscript
 from user import User
 from myrecording import Myrecording
+from mysocialmedia import Mysocialmedia
 from mymusic import Music
 from place import Place
 from event import Event
@@ -28,6 +29,7 @@ class Route():
         self.mysession={"notice":None,"email":None,"name":None}
         self.dbScript=Myscript()
         self.dbRecording=Myrecording()
+        self.dbMysocialmedia=Mysocialmedia()
         self.Speaker=Speaker()
         self.dbRumeur=Gossip()
         self.dbLieu=Place()
@@ -108,6 +110,17 @@ class Route():
         myparam=self.get_post_data()(params=("script","missiontarget_id","missiontype_id","missionprogram_id",))
         #hi=self.dbMissionscript.create(myparam)
         return self.render_some_json("welcome/mypic.json")
+    def nouveausocialmedia(self,search):
+        myparam=self.get_post_data()(params=("title","recording"))
+        self.render_figure.set_param("redirect","/")
+        x=None
+        x=self.dbMysocialmedia.create(myparam)
+        if x:
+          self.set_notice("votre évènement a été ajouté")
+        else:
+          self.set_code422(True)
+          self.set_notice("erreur quand votre évènement a été ajouté")
+        return self.render_some_json("welcome/redirect.json")
     def nouveauevent(self,search):
         myparam=self.get_post_data()(params=("date","heure","organization_id","place_id", "subtitle","recording","privpubl"))
         self.render_figure.set_param("redirect","/")

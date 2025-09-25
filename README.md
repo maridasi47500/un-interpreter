@@ -12,3 +12,4 @@ $ sh mysite.sh
 
 
 # un-interpreter
+pip3 install pydub

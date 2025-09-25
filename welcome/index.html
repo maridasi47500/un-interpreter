@@ -78,6 +78,25 @@ The recording of the proceedings of private meetings are password protected. </p
 																																																																																																																																																																																																																																																														                        </div>
 																																																																																																																																																																																																																																																																	                    </form>
 </p>
+<p>
+  <h1>Submit Your Recording from your media posts</h1>
+  <form action="/submithey" method="post" enctype="multipart/form-data">
+    <!-- Title Text Field -->
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" placeholder="Enter a title" required>
+    <br><br>
+
+    <!-- File Input Field -->
+    <label for="recording">Upload Recording:</label>
+    <input type="file" id="recording" name="recording" accept="audio/*" required>
+    <br><br>
+
+    <!-- Submit Button -->
+    <button type="submit">Submit</button>
+  </form>
+
+
+</p>
 <div id="meetingsresults" role="status" aria-live="polite" aria-label="Number of results" class="alert alert-info no-embed" style="display: block;"><%=len(params["events"])%> result found.</div>
 <div id="meetingslist" class="panel-group accordion" aria-multiselectable="false">
 	<%=render_collection(collection=params['events'], partial='welcome/_hey.html', as_='event')%>
