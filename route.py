@@ -181,6 +181,7 @@ class Route():
     def hello(self,search):
         print("hello action")
         print("hello action")
+        self.render_figure.set_param("socialmedia",self.dbMysocialmedia.getall_speaker())
         self.render_figure.set_param("events",self.dbEvent.getall_speaker())
         print("hello action")
         return self.render_figure.render_figure("welcome/index.html")
@@ -387,6 +388,7 @@ class Route():
             ROUTES={
             "^/personne/([0-9]+)$":self.voirpersonne,
             "^/lieu/([0-9]+)$":self.voirlieu,
+            '^/submithey$': self.nouveausocialmedia,
             '^/nouveauevent$': self.nouveauevent,
             '^/ajouterevent$': self.ajouterevent,
             '^/getenregistrement/([0-9]+)$': self.getenregistrement,

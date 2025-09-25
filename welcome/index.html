@@ -92,7 +92,7 @@ The recording of the proceedings of private meetings are password protected. </p
     <br><br>
 
     <!-- Submit Button -->
-    <button type="submit">Submit</button>
+    <input type="submit" value="hey" name="hey"/>
   </form>
 
 
@@ -100,5 +100,9 @@ The recording of the proceedings of private meetings are password protected. </p
 <div id="meetingsresults" role="status" aria-live="polite" aria-label="Number of results" class="alert alert-info no-embed" style="display: block;"><%=len(params["events"])%> result found.</div>
 <div id="meetingslist" class="panel-group accordion" aria-multiselectable="false">
 	<%=render_collection(collection=params['events'], partial='welcome/_hey.html', as_='event')%>
+
+</div>
+<div id="sociallist" class="panel-group accordion" aria-multiselectable="false">
+	<%=render_collection(collection=params['socialmedia'], partial='welcome/_heysocial.html', as_='socialmedia')%>
 
 </div>

@@ -7,7 +7,7 @@ from texttospeech import Texttospeech
 from organization import Organization
 from convert import Socialmedia
 
-from speaker import Socialloginspeaker
+from socialloginspeaker import Socialloginspeaker
 class Mysocialmedia(Model):
     def __init__(self):
         self.con=sqlite3.connect(self.mydb)
