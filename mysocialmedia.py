@@ -84,8 +84,10 @@ class Mysocialmedia(Model):
                   myhash[x]=str(params[x].decode())
                 except:
                   myhash[x]=str(params[x])
+        print("howareyou654")
+        print(myhash['recording'], "recording name")
         if myhash['recording'].endswith('m4a'):
-          print("goodbye678")
+          print("goodbye678 social media")
           hey=Socialmedia(myhash['recording']).ok()
           myhash['recording']=myhash['recording'].replace('.m4a','.mp3')
 

@@ -10,6 +10,7 @@ class Texttospeech:
     def script1(self):
         programs=self.myprogram(self.filename)
         programs.myargs(["./messcript/changetone.sh","./uploads/"+self.filename])
+        print("debut du programme speech to text")
         try:
            if not Fichier("./uploads",self.filename.split(".")[0]+".wav").existe():
               programs.run()
@@ -43,7 +44,7 @@ class Texttospeech:
                 # listen for the data (load audio to memory)
                 audio_data = r.record(source,timeout,phrase_time_limit)
                 # recognize (convert from speech to text)
-                print("fromspeech to text")
+                print("fromspeech to text2")
                 text = r.recognize_google(audio_data)
                 mytext=(text)
         return mytext

@@ -361,6 +361,12 @@ class Route():
         if path and path.endswith("png"):
             self.Program=Pic(path)
             self.Program.set_path("./")
+        elif path and path.endswith("wav"):
+            self.Program=Music(path)
+            self.Program.set_path("./")
+        elif path and path.endswith("m4a"):
+            self.Program=Music(path)
+            self.Program.set_path("./")
         elif path and path.endswith("mp3"):
             self.Program=Music(path)
             self.Program.set_path("./")

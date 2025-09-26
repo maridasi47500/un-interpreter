@@ -65,7 +65,7 @@ class RenderFigure():
               loc={"session": self.session,"render_collection": self.render_collection,"params":self.params,"getparams": self.getparams,"Fichier":Fichier,"date":date}
               for n in self.params:
                   loc[n]=self.params[n]
-              print(k[0])
+              #print(k[0])
               l=exec("myvalue="+k[0], globals(), loc)
               mystr+=str(loc["myvalue"]) if loc["myvalue"] is not None else ""
               if k[1]:
@@ -109,7 +109,7 @@ class RenderFigure():
                 loc["index"]=i
                 loc["paspremier"]=paspremier
                 loc[as_]=x
-                print("Hey There",x)
+                #print("Hey There",x)
                 for j in myview.split("<%"):
                     ligne+=j.count("\r\n")
                     if len(j) == 0:
@@ -117,7 +117,7 @@ class RenderFigure():
                     elif j[0] == "=":
 
                         j=j[1:]
-                        print("Hello",j)
+                        #print("Hello",j)
                         if "%>" not in j:
                             mystr+=j
                             continue
@@ -132,7 +132,7 @@ class RenderFigure():
                         if k[1]:
                             mystr+=k[1]
                     else:
-                        print("Hello",j)
+                        #print("Hello",j)
                         if "%>" not in j:
                             mystr+=j
                             continue
@@ -141,8 +141,8 @@ class RenderFigure():
 
                         #print(dict(x))
                         if k[0]:
-                            print(k[0], "content render")
-                            print(k[0])
+                            #print(k[0], "content render")
+                            #print(k[0])
                             l=exec(k[0], globals(), loc)
                             #mystr+=str(loc["myvalue"])
                         if k[1]:
